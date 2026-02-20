@@ -4,55 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BizTone Converter - 업무 말투 변환기</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/script.js" defer></script>
+    <!-- Tailwind CSS v4 CDN (PRD requirement check) -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --secondary: #F5F7FA;
+            --text-main: #333333;
+            --success: #50E3C2;
+            --error: #D0021B;
+            --border: #E0E6ED;
+        }
+        body {
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-main);
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .primary-btn {
+            background-color: var(--primary);
+            transition: filter 0.2s;
+        }
+        .primary-btn:hover {
+            filter: brightness(1.1);
+        }
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            width: 1.25rem;
+            height: 1.25rem;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body class="font-mono bg-gray-200 text-gray-800">
-    <div class="max-w-4xl mx-auto p-4">
-        <header class="text-center my-8 p-4 border-b-4 border-gray-900 bg-gray-300 shadow-md">
-            <h1 class="text-4xl font-bold text-gray-900 mb-2">BizTone Converter</h1>
-            <p class="text-gray-700">AI로 상황에 맞는 비즈니스 말투를 찾아보세요.</p>
+<body class="min-h-screen flex flex-col">
+    <div class="max-w-5xl mx-auto p-6 md:p-12 w-full">
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-bold mb-3" style="color: var(--primary);">BizTone Converter</h1>
+            <p class="text-gray-600">당신의 생각을 전문적인 비즈니스 말투로 변환해드립니다.</p>
         </header>
-        
-        <main class="flex flex-col md:flex-row gap-4">
-            <section class="bg-gray-100 p-6 rounded-lg border-2 border-gray-900 shadow-retro-hard flex-1">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">원문</h2>
-                <textarea id="inputText" placeholder="변환할 내용을 입력하세요..." maxlength="500" class="w-full min-h-[200px] border-2 border-gray-900 bg-gray-900 text-green-400 p-3 text-lg resize-y focus:outline-none focus:border-green-300"></textarea>
-                <div class="text-right text-sm text-gray-600 mt-2">
-                    <span id="charCount">0/500</span>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- 입력 영역 -->
+            <section class="bg-white p-6 md:p-8 rounded-xl card-shadow border border-gray-100 flex flex-col">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold">원문 입력</h2>
+                    <span id="charCount" class="text-sm text-gray-400">0/500</span>
                 </div>
-                <div class="target-selection">
-                    <h3 class="text-lg font-bold text-gray-900 mb-3">누구에게 보내나요?</h3>
-                    <div class="flex flex-wrap gap-4 mt-2">
-                        <div class="flex items-center">
-                            <input type="radio" id="target-boss" name="target" value="상사" class="hidden peer">
-                            <label for="target-boss" class="peer-checked:bg-blue-600 peer-checked:text-white bg-gray-300 text-gray-900 border-2 border-gray-900 px-4 py-2 cursor-pointer hover:bg-blue-500 hover:text-white transition-colors duration-200 shadow-sm">상사 (Upward)</label>
-                        </div>
-                        
-                        <div class="flex items-center">
-                            <input type="radio" id="target-colleague" name="target" value="타팀 동료" class="hidden peer">
-                            <label for="target-colleague" class="peer-checked:bg-blue-600 peer-checked:text-white bg-gray-300 text-gray-900 border-2 border-gray-900 px-4 py-2 cursor-pointer hover:bg-blue-500 hover:text-white transition-colors duration-200 shadow-sm">타팀 동료 (Lateral)</label>
-                        </div>
-                        
-                        <div class="flex items-center">
-                            <input type="radio" id="target-client" name="target" value="고객" class="hidden peer">
-                            <label for="target-client" class="peer-checked:bg-blue-600 peer-checked:text-white bg-gray-300 text-gray-900 border-2 border-gray-900 px-4 py-2 cursor-pointer hover:bg-blue-500 hover:text-white transition-colors duration-200 shadow-sm">고객 (External)</label>
-                        </div>
+                <textarea id="inputText" placeholder="상사나 동료에게 보낼 내용을 자유롭게 입력하세요 (최대 500자)" 
+                    maxlength="500" class="w-full h-64 p-4 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 resize-none transition-all"
+                    style="focus-ring-color: var(--primary);"></textarea>
+                
+                <div class="mt-6">
+                    <h3 class="text-sm font-medium text-gray-500 mb-3">누구에게 보내시나요?</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="target" value="상사" class="hidden peer" checked>
+                            <div class="px-5 py-2.5 rounded-full border border-gray-200 text-sm peer-checked:bg-blue-500 peer-checked:text-white peer-checked:border-blue-500 transition-all">
+                                상사 (Upward)
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="target" value="타팀 동료" class="hidden peer">
+                            <div class="px-5 py-2.5 rounded-full border border-gray-200 text-sm peer-checked:bg-blue-500 peer-checked:text-white peer-checked:border-blue-500 transition-all">
+                                타팀 동료 (Lateral)
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="target" value="고객" class="hidden peer">
+                            <div class="px-5 py-2.5 rounded-full border border-gray-200 text-sm peer-checked:bg-blue-500 peer-checked:text-white peer-checked:border-blue-500 transition-all">
+                                고객 (External)
+                            </div>
+                        </label>
                     </div>
                 </div>
-                <button id="convertBtn" class="w-full mt-6 px-6 py-3 bg-blue-700 text-white font-bold uppercase tracking-wider border-2 border-gray-900 shadow-retro-hard hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center">
-                    <span>변환하기</span>
-                    <div class="spinner ml-2 w-5 h-5 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin" style="display: none;"></div>
+
+                <button id="convertBtn" class="primary-btn w-full mt-8 py-4 text-white font-bold rounded-lg flex items-center justify-center space-x-2">
+                    <span id="btnText">변환하기</span>
+                    <div id="loadingSpinner" class="spinner" style="display: none;"></div>
                 </button>
             </section>
-            
-            <section class="bg-gray-100 p-6 rounded-lg border-2 border-gray-900 shadow-retro-hard flex-1">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">변환 결과</h2>
-                <div id="outputText" class="w-full min-h-[200px] border-2 border-gray-900 bg-gray-900 text-green-400 p-3 text-lg whitespace-pre-wrap word-break-all" aria-live="polite"></div>
-                <button id="copyBtn" class="w-full mt-4 px-6 py-3 bg-gray-300 text-gray-900 font-bold uppercase tracking-wider border-2 border-gray-900 shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" style="display: none;">복사하기</button>
-                <div id="feedback" class="text-sm mt-2 text-red-500" style="display: none;"></div>
+
+            <!-- 결과 영역 -->
+            <section class="bg-white p-6 md:p-8 rounded-xl card-shadow border border-gray-100 flex flex-col">
+                <h2 class="text-xl font-semibold mb-4">변환 결과</h2>
+                <div id="outputText" class="w-full h-64 p-4 rounded-lg bg-gray-50 border border-gray-100 overflow-y-auto whitespace-pre-wrap text-gray-700" 
+                    placeholder="변환된 결과가 여기에 표시됩니다."></div>
+                
+                <div class="mt-auto pt-6 flex flex-col space-y-4">
+                    <button id="copyBtn" class="w-full py-4 bg-gray-100 text-gray-700 font-bold rounded-lg hover:bg-gray-200 transition-all hidden">
+                        결과 복사하기
+                    </button>
+                    <div id="feedbackContainer" class="flex justify-center items-center space-x-6 py-2 hidden">
+                        <span class="text-sm text-gray-400">결과가 만족스러우신가요?</span>
+                        <div class="flex space-x-3">
+                            <button class="feedback-btn text-gray-400 hover:text-blue-500 transition-colors" data-type="good">👍</button>
+                            <button class="feedback-btn text-gray-400 hover:text-red-500 transition-colors" data-type="bad">👎</button>
+                        </div>
+                    </div>
+                    <div id="errorMsg" class="text-sm text-center text-red-500 hidden font-medium"></div>
+                </div>
             </section>
         </main>
     </div>
+
+    <script src="js/script.js"></script>
 </body>
 </html>

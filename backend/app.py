@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
 from dotenv import load_dotenv
 import groq
 
@@ -8,6 +9,7 @@ load_dotenv()
 
 # Initialize Flask app, setting the static folder to the 'frontend' directory
 app = Flask(__name__, static_folder='../frontend', static_url_path='')
+CORS(app) # Enable CORS for all routes
 
 # Initialize Groq client
 # The API key is loaded automatically from the GROQ_API_KEY environment variable

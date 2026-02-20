@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(() => {
                 const originalText = copyBtn.textContent;
                 copyBtn.textContent = '복사되었습니다!';
-                copyBtn.style.backgroundColor = 'var(--success-color)';
+                copyBtn.style.backgroundColor = '#4CAF50';
                 
                 setTimeout(() => {
                     copyBtn.textContent = originalText;
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Helper function to show feedback messages
     function showFeedback(message, type = 'info') {
         feedback.textContent = message;
-        feedback.style.color = type === 'error' ? 'var(--error-color)' : 'var(--text-color)';
+        feedback.style.color = type === 'error' ? '#EF4444' : '#333333';
         feedback.style.display = message ? 'block' : 'none';
     }
 });

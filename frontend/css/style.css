@@ -1,0 +1,163 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+:root {
+    --primary-color: #4A90E2;
+    --secondary-color: #F5F7FA;
+    --text-color: #333333;
+    --background-color: #F5F7FA;
+    --border-color: #E0E6ED;
+    --success-color: #50E3C2;
+    --error-color: #D0021B;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Pretendard", "Noto Sans KR", sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 28px;
+    color: var(--primary-color);
+}
+
+.header p {
+    font-size: 16px;
+    color: #666;
+}
+
+.converter-wrapper {
+    display: flex;
+    gap: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.card h2 {
+    font-size: 22px;
+    margin-bottom: 16px;
+}
+
+textarea, .output-box {
+    width: 100%;
+    min-height: 200px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 16px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.toolbar {
+    text-align: right;
+    font-size: 14px;
+    color: #888;
+    margin-top: 8px;
+}
+
+.target-selection {
+    margin: 24px 0;
+}
+
+.target-selection h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.radio-group {
+    display: flex;
+    gap: 16px;
+}
+
+.radio-group label {
+    cursor: pointer;
+}
+
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #357ABD;
+}
+
+.output-box {
+    background-color: #f9f9f9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.feedback {
+    margin-top: 16px;
+    font-size: 14px;
+}
+
+.spinner {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid var(--primary-color);
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .converter-wrapper {
+        flex-direction: column;
+    }
+}

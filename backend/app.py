@@ -1,15 +1,13 @@
 import os
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask import Flask, request, jsonify, send_from_directory
 from dotenv import load_dotenv
 import groq
 
 # Load environment variables from .env file
 load_dotenv()
 
-app = Flask(__name__)
-# Enable CORS for all routes, allowing frontend to communicate with backend
-CORS(app)
+# Initialize Flask app, setting the static folder to the 'frontend' directory
+app = Flask(__name__, static_folder='../frontend', static_url_path='')
 
 # Initialize Groq client
 # The API key is loaded automatically from the GROQ_API_KEY environment variable
@@ -18,6 +16,11 @@ try:
 except Exception as e:
     print(f"Error initializing Groq client: {e}")
     groq_client = None
+
+# Route to serve the main index.html file
+@app.route('/')
+def serve_index():
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/api/convert', methods=['POST'])
 def convert_text():
